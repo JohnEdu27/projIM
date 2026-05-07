@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Customers</title>
+  <link rel="stylesheet" href="../FrontendDesigns/admin.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../images/mascot.png" alt="logo">
+      <span>CCG Admin</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="nav-item">📊 Dashboard</a>
+      <a href="menu.html" class="nav-item">🍽️ Menu</a>
+      <a href="customers.html" class="nav-item active">👥 Customers</a>
+    </nav>
+    <button class="sidebar-logout" id="logoutBtn">🚪 Logout</button>
+  </div>
+
+  <!-- Main content -->
+  <div class="admin-main">
+
+    <!-- Top bar -->
+    <div class="topbar">
+      <h1>Customers</h1>
+      <div class="topbar-user">
+        <img id="userPhoto" src="" alt="profile">
+        <span id="userName">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Customers table -->
+    <div class="admin-card">
+      <h2>All Customers</h2>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Block</th>
+            <th>Student ID</th>
+          </tr>
+        </thead>
+        <tbody id="customersTable">
+          <!-- filled by customers.js -->
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+<!-- Your HTML exactly the same -->
+
+<!-- ✅ ONLY CHANGE THIS -->
+<script src="customers.js"></script>
+</body>
+</html>

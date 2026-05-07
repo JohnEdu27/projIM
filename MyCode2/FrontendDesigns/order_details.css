@@ -1,0 +1,575 @@
+/* reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* page */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f0f2f5;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  color: #333;
+}
+
+/* -- loading screen -- */
+
+/* centered loading spinner */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  gap: 1rem;
+  color: #888;
+}
+
+/* spinning circle animation */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f0f0f0;
+  border-top: 4px solid #FF6600;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* -- error screen -- */
+
+/* centered error message */
+.error-screen {
+  text-align: center;
+  padding: 4rem 2rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.error-screen h2 {
+  font-size: 1.5rem;
+  color: #1e2a3a;
+  margin-bottom: 0.6rem;
+}
+
+.error-screen p {
+  color: #888;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.error-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* -- main wrapper -- */
+
+/* max width centered layout */
+.order-wrapper {
+  max-width: 620px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  animation: fadeInUp 0.4s ease-out;
+}
+
+/* back button */
+.back-btn {
+  display: inline-block;
+  color: #FF6600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+/* -- tracker card -- */
+
+/* order status tracker white card */
+.tracker-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.8rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* top row with order ID and cancel button */
+.tracker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.tracker-header h2 {
+  font-size: 1.2rem;
+  color: #1e2a3a;
+  font-weight: 700;
+}
+
+/* small gray order date */
+.order-date-text {
+  color: #aaa;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+/* cancel button - red outline */
+.cancel-btn {
+  padding: 6px 14px;
+  background: none;
+  border: 1.5px solid #ef4444;
+  color: #ef4444;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancel-btn:hover {
+  background: #fef2f2;
+}
+
+/* disabled cancel button when delivering or done */
+.cancel-btn:disabled {
+  border-color: #ccc;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+/* status message box */
+.status-message {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  background: #fff9f0;
+  border: 1.5px solid #FFB347;
+  transition: all 0.4s ease;
+}
+
+/* status emoji */
+.status-emoji {
+  font-size: 2rem;
+}
+
+/* status title */
+.status-message h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e2a3a;
+  margin-bottom: 2px;
+}
+
+/* status description */
+.status-message p {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* status color themes */
+.status-message.preparing {
+  background: #fff9f0;
+  border-color: #FFB347;
+}
+
+.status-message.delivering {
+  background: #eff6ff;
+  border-color: #3b82f6;
+}
+
+.status-message.done {
+  background: #f0fdf4;
+  border-color: #22c55e;
+}
+
+/* -- progress tracker -- */
+
+/* horizontal row of steps */
+.progress-tracker {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+
+/* single step */
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+/* step icon circle */
+.step-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  border: 2px solid #e0e0e0;
+  margin-bottom: 6px;
+  transition: all 0.4s ease;
+  z-index: 1;
+}
+
+/* active step icon */
+.step.active .step-icon {
+  background: #FF6600;
+  border-color: #FF6600;
+  box-shadow: 0 0 0 4px rgba(255,102,0,0.15);
+}
+
+/* completed step icon */
+.step.completed .step-icon {
+  background: #22c55e;
+  border-color: #22c55e;
+}
+
+/* delivering step active */
+.step.active.delivering .step-icon {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59,130,246,0.15);
+}
+
+/* done step active */
+.step.active.done-step .step-icon {
+  background: #22c55e;
+  border-color: #22c55e;
+  box-shadow: 0 0 0 4px rgba(34,197,94,0.15);
+}
+
+/* connecting line between steps */
+.step-line {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: #e0e0e0;
+  z-index: 0;
+  transition: background 0.4s ease;
+}
+
+/* last step has no line */
+.step-line.last {
+  display: none;
+}
+
+/* completed line turns green */
+.step.completed .step-line {
+  background: #22c55e;
+}
+
+/* step label */
+.step-label {
+  font-size: 0.75rem;
+  color: #aaa;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* active step label */
+.step.active .step-label,
+.step.completed .step-label {
+  color: #333;
+  font-weight: 600;
+}
+
+/* estimated time box */
+.eta-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8f8f8;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+/* -- info cards -- */
+
+/* white info card */
+.info-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* card heading */
+.info-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e2a3a;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 2px solid #FF6600;
+  display: inline-block;
+}
+
+/* grid of info rows */
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* single info row */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  font-size: 0.88rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* gray label on left */
+.info-label {
+  color: #888;
+  font-weight: 500;
+  min-width: 80px;
+}
+
+/* dark value on right */
+.info-value {
+  color: #333;
+  font-weight: 500;
+  text-align: right;
+}
+
+/* -- items list -- */
+
+/* single ordered item row */
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 0.88rem;
+}
+
+.item-row:last-child {
+  border-bottom: none;
+}
+
+.item-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.item-qty {
+  color: #888;
+  font-size: 0.82rem;
+}
+
+.item-price {
+  font-weight: 600;
+  color: #FF6600;
+}
+
+/* -- pricing -- */
+
+/* pricing breakdown section */
+.pricing {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.pricing-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+/* bold total row */
+.pricing-row.total {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #FF6600;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* -- rider card -- */
+
+.rider-card {
+  opacity: 0.8;
+}
+
+.rider-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.rider-avatar {
+  width: 48px;
+  height: 48px;
+  background: #f0f2f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.rider-name {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.rider-detail {
+  font-size: 0.82rem;
+  color: #888;
+}
+
+/* -- buttons -- */
+
+.btn-primary {
+  display: inline-block;
+  padding: 10px 20px;
+  background: linear-gradient(to right, #FF6600, #FFB347);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #f0f2f5;
+  color: #555;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-danger {
+  padding: 10px 20px;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* -- cancel modal -- */
+
+/* dark overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 1rem;
+}
+
+/* modal white box */
+.modal-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.modal-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.modal-box h3 {
+  font-size: 1.2rem;
+  color: #1e2a3a;
+  margin-bottom: 0.6rem;
+}
+
+.modal-box p {
+  color: #666;
+  font-size: 0.88rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* mobile */
+@media (max-width: 480px) {
+  body { padding: 1rem 0.5rem; }
+  .tracker-card { padding: 1.2rem; }
+  .info-card { padding: 1.2rem; }
+  .modal-buttons { flex-direction: column; }
+}

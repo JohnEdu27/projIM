@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Canteen Grab - Delivery</title>
+  <link rel="stylesheet" href="delivery.css">
+</head>
+<body>
+
+  <div class="delivery-wrapper">
+
+    <!-- back button -->
+    <a href="cart.html" class="back-btn">← Back to Cart</a>
+
+    <div class="delivery-card">
+
+      <!-- header -->
+      <div class="delivery-header">
+        <div class="moto-icon">🏍️</div>
+        <h1>Delivery Details</h1>
+        <p>Fill in your delivery information to place your order.</p>
+      </div>
+
+      <!-- delivery form -->
+      <form id="deliveryForm">
+
+        <!-- delivery address -->
+        <div class="form-group">
+          <label for="deliveryAddress">Delivery Address *</label>
+          <textarea
+            id="deliveryAddress"
+            placeholder="e.g. Dormitory A, Room 205, University Campus"
+            rows="3"
+            required>
+          </textarea>
+          <span class="error" id="addressError"></span>
+        </div>
+
+        <!-- phone number -->
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number *</label>
+          <input
+            type="tel"
+            id="phoneNumber"
+            placeholder="e.g. 09123456789"
+            maxlength="11"
+            required>
+          <span class="error" id="phoneError"></span>
+        </div>
+
+        <!-- delivery option -->
+        <div class="form-group">
+          <label for="deliveryOption">Delivery Option *</label>
+          <select id="deliveryOption" required>
+            <option value="">Select delivery option</option>
+            <option value="standard">🚶 Standard (30-45 mins) — Free</option>
+            <option value="express">⚡ Express (15-20 mins) — ₱20</option>
+          </select>
+          <span class="error" id="optionError"></span>
+        </div>
+
+        <!-- payment method -->
+        <div class="form-group">
+          <label>Payment Method *</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="paymentMethod" value="cash">
+              <span class="radio-label">💵 Cash on Delivery</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="paymentMethod" value="gcash">
+              <span class="radio-label">📱 GCash</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="paymentMethod" value="maya">
+              <span class="radio-label">💳 Maya</span>
+            </label>
+          </div>
+          <span class="error" id="paymentError"></span>
+        </div>
+
+        <!-- order notes -->
+        <div class="form-group">
+          <label for="orderNotes">
+            Order Notes <span class="optional">(Optional)</span>
+          </label>
+          <textarea
+            id="orderNotes"
+            placeholder="e.g. No spicy, extra rice, call when arrived..."
+            rows="2">
+          </textarea>
+        </div>
+
+        <!-- order summary - filled by delivery.js -->
+        <div class="order-summary" id="orderSummary"></div>
+
+        <!-- place order button -->
+        <button type="submit" id="placeOrderBtn">🏍️ Place Order</button>
+
+      </form>
+
+    </div>
+  </div>
+
+  <script src="delivery.js"></script>
+</body>
+</html>
