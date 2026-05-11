@@ -1,0 +1,147 @@
+/* reset all default browser styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* page font */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+}
+
+/* full page orange gradient background */
+.profile-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FF6600 0%, #FFB347 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* white card container */
+.profile-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(255, 102, 0, 0.2);
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* mascot logo */
+.profile-logo {
+  width: 72px;
+  margin-bottom: 1.2rem;
+}
+
+/* main heading */
+.profile-card h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.4rem;
+}
+
+/* subtitle below heading */
+.profile-subtitle {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 1.8rem;
+}
+
+/* form stacks fields vertically */
+#profileForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: left;
+}
+
+/* label above each input */
+#profileForm label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+  margin-top: 0.8rem;
+}
+
+/* input field styling */
+#profileForm input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  background: #fafafa;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+/* orange border when input is focused */
+#profileForm input:focus {
+  border-color: #FF6600;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
+}
+
+/* red error message below each field */
+.error {
+  color: #ef4444;
+  font-size: 0.8rem;
+  font-weight: 500;
+  min-height: 18px;
+  display: block;
+}
+
+/* orange gradient save button */
+#saveBtn {
+  margin-top: 1.5rem;
+  padding: 16px;
+  background: linear-gradient(135deg, #FF6600, #FFB347);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(255, 102, 0, 0.3);
+}
+
+/* lift button on hover */
+#saveBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 102, 0, 0.4);
+}
+
+/* disabled state while saving */
+#saveBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* fade in from below animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* mobile responsive */
+@media (max-width: 480px) {
+  .profile-card {
+    padding: 2rem 1.5rem;
+  }
+}

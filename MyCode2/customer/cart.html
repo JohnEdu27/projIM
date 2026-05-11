@@ -1,0 +1,84 @@
+<!-- Tells the browser this is an HTML5 document -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Supports all characters and symbols -->
+  <meta charset="UTF-8">
+  <!-- Makes the page look good on mobile screens -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Browser tab title -->
+  <title>Campus Canteen Grab - Cart</title>
+  <!-- Links the CSS files -->
+  <link rel="stylesheet" href="../FrontendDesigns/home.css">
+  <link rel="stylesheet" href="../FrontendDesigns/cart.css">
+</head>
+
+<body>
+
+  <!-- Top navigation bar -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="../images/mascot.png" alt="logo" class="nav-logo">
+      <span class="nav-title">Campus Canteen Grab</span>
+    </div>
+    <div class="nav-right">
+      <img id="userPhoto" src="" alt="profile" class="user-photo">
+      <span id="userName">Loading...</span>
+      <button id="logoutBtn">Logout</button>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main class="main">
+
+    <!-- Page heading and back button -->
+    <div class="cart-header">
+      <h1>🛒 Your Cart</h1>
+      <a href="home.html" class="back-btn">← Back to Menu</a>
+    </div>
+
+    <!-- Cart layout - items left, summary right -->
+    <div class="cart-container">
+
+      <!-- Left side - cart items filled by cart.js -->
+      <div class="cart-items" id="cartItems">
+      </div>
+
+      <!-- Right side - order summary -->
+      <div class="cart-summary">
+
+        <h2>Order Summary</h2>
+
+        <!-- Summary rows filled by cart.js -->
+        <div id="summaryRows"></div>
+
+        <!-- Divider -->
+        <div class="summary-divider"></div>
+
+        <!-- Total calculated by cart.js -->
+        <div class="summary-total">
+          <span>Total</span>
+          <span id="totalPrice">₱0</span>
+        </div>
+
+        <!-- Checkout button -->
+        <button class="checkout-btn" id="checkoutBtn">
+          Place Order
+        </button>
+
+        <!-- Note -->
+        <p class="cart-note">Your order will be prepared after payment at the canteen.</p>
+
+      </div>
+
+    </div>
+
+  </main>
+
+      <a href="delivery.html">Proceed to Delivery</a>
+      
+  <script type="module" src="cart.js"></script>
+
+</body>
+</html>
