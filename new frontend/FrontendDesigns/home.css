@@ -1,0 +1,345 @@
+/* resets default browser margins, padding, and sizing for all elements */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* sets the overall page background and font */
+body {
+  font-family: sans-serif;
+  background: #f0f0f0;
+  min-height: 100vh;
+}
+
+/* -- navbar -- */
+
+/* orange gradient top navigation bar */
+.navbar {
+  background: linear-gradient(to right, #FF6600, #FFB347);
+  padding: 0.8rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* left side of navbar - logo and app name */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* mascot logo size in the navbar */
+.nav-logo {
+  width: 40px;
+}
+
+/* app name text style in the navbar */
+.nav-title {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* right side of navbar - cart, profile photo, name, logout */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* circular profile photo */
+.user-photo {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+/* username text in navbar */
+.nav-right span {
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* white logout button with orange text */
+#logoutBtn {
+  padding: 6px 16px;
+  background: #ffffff;
+  color: #FF6600;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+/* logout button hover effect */
+#logoutBtn:hover {
+  background: #ffe0cc;
+}
+
+/* -- cart icon -- */
+
+/* cart icon wrapper - clickable */
+.cart-nav {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+/* cart emoji size */
+.cart-icon {
+  font-size: 1.5rem;
+}
+
+/* red badge showing number of items in cart */
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #ff0000;
+  color: #ffffff;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* -- main content -- */
+
+/* centers the main content and adds spacing */
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* -- welcome -- */
+
+/* spacing below the welcome message */
+.welcome {
+  margin-bottom: 2rem;
+}
+
+/* welcome heading style */
+.welcome h1 {
+  font-size: 1.6rem;
+  color: #333;
+  margin-bottom: 0.3rem;
+}
+
+/* welcome subtext style */
+.welcome p {
+  color: #888;
+  font-size: 0.95rem;
+}
+
+/* -- menu section -- */
+
+/* spacing below the menu section */
+.menu-section {
+  margin-bottom: 3rem;
+}
+
+/* section headings with orange underline for menu and orders */
+.menu-section h2,
+.orders-section h2 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #FF6600;
+  display: inline-block;
+}
+
+/* -- food grid -- */
+
+/* responsive grid layout for food cards */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.2rem;
+}
+
+/* -- food card -- */
+
+/* white card with rounded corners and shadow */
+.food-card {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+}
+
+/* lifts the card up slightly when hovered */
+.food-card:hover {
+  transform: translateY(-4px);
+}
+
+/* food image area - fixed height container */
+.food-image {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  background: #fff5ee;
+}
+
+/* actual food image fills the container */
+.food-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+/* zoom image slightly on card hover */
+.food-card:hover .food-image img {
+  transform: scale(1.05);
+}
+
+/* padding inside the card below the image */
+.food-info {
+  padding: 0.8rem;
+}
+
+/* food name text style */
+.food-info h3 {
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+/* food description text style */
+.food-desc {
+  font-size: 0.78rem;
+  color: #888;
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+}
+
+/* row that holds the price and add to cart button */
+.food-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* orange price text */
+.food-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #FF6600;
+}
+
+/* orange gradient add to cart button */
+.add-btn {
+  padding: 5px 12px;
+  background: linear-gradient(to right, #FF6600, #FFB347);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+/* slightly fades the button when hovered */
+.add-btn:hover {
+  opacity: 0.9;
+}
+
+/* -- orders section -- */
+
+/* stacks order cards vertically with spacing */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* single order row card with shadow */
+.order-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* left side of order card - order id and date stacked */
+.order-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* order name or id text */
+.order-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* order date in small gray text */
+.order-date {
+  font-size: 0.78rem;
+  color: #aaa;
+}
+
+/* right side of order card - price and status badge */
+.order-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* orange price text in the order card */
+.order-price {
+  font-weight: 700;
+  color: #FF6600;
+}
+
+/* base style for status badges */
+.order-status {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+/* green badge for completed orders */
+.status-done {
+  background: #e6f4ea;
+  color: #2e7d32;
+}
+
+/* orange badge for pending orders */
+.status-pending {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+/* loading or empty message */
+.loading-text {
+  color: #888;
+  font-size: 0.9rem;
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+}

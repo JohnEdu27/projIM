@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Canteen Grab - Faculty Signup</title>
+  <style>
+
+    /* reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* page */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #FF6600 0%, #FFB347 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    /* white card */
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 440px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(255,102,0,0.2);
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    /* icon circle */
+    .icon-circle {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, #FF6600, #FFB347);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 1rem;
+      box-shadow: 0 4px 12px rgba(255,102,0,0.3);
+    }
+
+    /* heading */
+    h1 { font-size: 1.6rem; color: #1e2a3a; font-weight: 700; margin-bottom: 0.4rem; }
+
+    /* subtitle */
+    .subtitle { color: #888; font-size: 0.9rem; margin-bottom: 1.8rem; }
+
+    /* form */
+    form { display: flex; flex-direction: column; gap: 0.4rem; text-align: left; }
+
+    /* label */
+    label { font-size: 0.83rem; font-weight: 600; color: #333; margin-top: 0.7rem; }
+
+    /* input and select */
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      background: #fafafa;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus {
+      border-color: #FF6600;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(255,102,0,0.1);
+    }
+
+    /* error text */
+    .err {
+      color: #ef4444;
+      font-size: 0.78rem;
+      min-height: 16px;
+      display: block;
+    }
+
+    /* submit button */
+    .submit-btn {
+      margin-top: 1.5rem;
+      padding: 14px;
+      background: linear-gradient(135deg, #FF6600, #FFB347);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 4px 12px rgba(255,102,0,0.3);
+    }
+
+    .submit-btn:hover:not(:disabled) { opacity: 0.9; transform: translateY(-2px); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* back link */
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      color: #888;
+      font-size: 0.85rem;
+      text-decoration: none;
+    }
+
+    .back-link:hover { color: #FF6600; }
+
+    /* success message */
+    .success-box {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      color: #22c55e;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .success-box p { color: #666; font-size: 0.88rem; margin-top: 0.5rem; font-weight: 400; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 2rem 1.2rem; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- icon -->
+    <div class="icon-circle">👨‍🏫</div>
+
+    <!-- heading -->
+    <h1>Faculty Registration</h1>
+    <p class="subtitle">Sign up as a Campus Canteen faculty member.</p>
+
+    <!-- faculty signup form -->
+    <form id="facultyForm">
+
+      <!-- full name -->
+      <label for="facultyName">Full Name *</label>
+      <input type="text" id="facultyName" placeholder="Enter your full name" required>
+      <span class="err" id="nameErr"></span>
+
+      <!-- email -->
+      <label for="facultyEmail">Email *</label>
+      <input type="email" id="facultyEmail" placeholder="Enter your email" required>
+      <span class="err" id="emailErr"></span>
+
+      <!-- phone -->
+      <label for="facultyPhone">Phone Number *</label>
+      <input type="tel" id="facultyPhone" placeholder="e.g. 09123456789" maxlength="11" required>
+      <span class="err" id="phoneErr"></span>
+
+      <!-- faculty ID -->
+      <label for="facultyId">Faculty ID *</label>
+      <input type="text" id="facultyId" placeholder="e.g. FAC-001" required>
+      <span class="err" id="idErr"></span>
+
+      <!-- department -->
+      <label for="facultyDept">Department *</label>
+      <select id="facultyDept" required>
+        <option value="">Select your department</option>
+        <option value="BSIT">BSIT</option>
+        <option value="BSCS">BSCS</option>
+        <option value="BSBA">BSBA</option>
+        <option value="BSED">BSED</option>
+        <option value="BSHM">BSHM</option>
+        <option value="BSCRIM">BSCRIM</option>
+        <option value="BSCA">BSCA</option>
+      </select>
+      <span class="err" id="deptErr"></span>
+
+      <!-- password -->
+      <label for="facultyPassword">Password *</label>
+      <input type="password" id="facultyPassword" placeholder="At least 6 characters" required>
+      <span class="err" id="passwordErr"></span>
+
+      <!-- confirm password -->
+      <label for="facultyConfirm">Confirm Password *</label>
+      <input type="password" id="facultyConfirm" placeholder="Repeat your password" required>
+      <span class="err" id="confirmErr"></span>
+
+      <!-- submit -->
+      <button type="submit" class="submit-btn" id="facultyBtn">
+        👨‍🏫 Register as Faculty
+      </button>
+
+    </form>
+
+    <!-- success message -->
+    <div class="success-box" id="successBox">
+      ✅ Faculty account created!
+      <p>You can now login with your email and password.</p>
+    </div>
+
+    <!-- back link -->
+    <a href="./Fontend.html" class="back-link">← Back to Login</a>
+
+  </div>
+
+  <script src="signupFaculty.js"></script>
+
+</body>
+</html>

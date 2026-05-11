@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Canteen Grab - Home</title>
+  <link rel="stylesheet" href="../FrontendDesigns/home.css">
+</head>
+
+<body>
+
+  <!-- top navigation bar -->
+  <nav class="navbar">
+
+    <!-- left side - logo and app name -->
+    <div class="nav-left">
+      <img src="../images/mascot.png" alt="logo" class="nav-logo">
+      <span class="nav-title">Campus Canteen Grab</span>
+    </div>
+
+    <!-- right side - cart, profile, name, logout -->
+    <div class="nav-right">
+
+      <!-- cart icon - clicking goes to cart page -->
+      <div class="cart-nav" onclick="window.location.href='cart.html'">
+        <span class="cart-icon">🛒</span>
+        <!-- badge shows number of items - filled by home.js -->
+        <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
+      </div>
+
+      <!-- user profile picture from localStorage -->
+      <img id="userPhoto" src="" alt="profile" class="user-photo">
+
+      <!-- user name from localStorage -->
+      <span id="userName">Loading...</span>
+
+      <!-- logout button -->
+      <button id="logoutBtn">Logout</button>
+
+    </div>
+
+  </nav>
+
+  <!-- main content area -->
+  <main class="main">
+
+    <!-- welcome message -->
+    <div class="welcome">
+      <h1>Welcome, <span id="welcomeName">...</span>! 👋</h1>
+      <p>What would you like to order today?</p>
+    </div>
+
+    <!-- menu section -->
+    <section class="menu-section">
+      <h2>Our Menu</h2>
+
+      <!-- food cards grid - filled by home.js -->
+      <div class="menu-grid" id="menuGrid">
+      </div>
+
+    </section>
+
+    <!-- order history section -->
+    <section class="orders-section">
+      <h2>Your Recent Orders</h2>
+
+      <!-- order history list - filled by home.js -->
+      <div class="orders-list" id="ordersList">
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- links the javascript file -->
+  <script src="home.js"></script>
+
+</body>
+</html>

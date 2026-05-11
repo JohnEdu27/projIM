@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Canteen Grab - Login</title>
+  <link rel="stylesheet" href="FrontendDesigns/design.css">
+</head>
+<body>
+  <div class="container">
+    <!-- LEFT: Login Form -->
+    <div class="left">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <label for="login">Email:</label>
+        <input type="text" id="email" name="login" placeholder="Enter email" required>
+        <span class="error" id="loginError"></span>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+    <span class="error" id="passwordError"></span>
+
+    <div class="remember">
+      <input type="checkbox" id="remember" name="remember">
+      <label for="remember">Remember me</label>
+    </div>
+
+    <button type="submit" id="submitBtn">Enter</button>
+  </form>
+
+  <div class="divider">
+    <span>or sign in with</span>
+  </div>
+
+  <div class="social-buttons">
+    <button class="btn-google" id="googleBtn">
+      <img src="https://www.google.com/favicon.ico" alt="Google"> Google
+    </button>
+    <button class="btn-facebook" id="facebookBtn">
+      <img src="https://www.facebook.com/favicon.ico" alt="Facebook"> Facebook
+    </button>
+  </div>
+
+  <p><a href="/forgot-password">Forgot Password?</a></p>
+  <p><a href="/signup/customers">Signup</a></p>
+  <p><a href="./rider/signupRider.html">Signup as Rider</a></p>
+  <p><a href="./faculty/signupFaculty.html">Signup as Faculty</a></p>
+</div>
+
+<!-- RIGHT: Branding -->
+<div class="right">
+  <img src="images/mascot.png" alt="CampusGrab Mascot">
+  <h1>Campus Canteen Grab</h1>
+  <p>Hungry? You've come to the right place. Browse our menu and order now!</p>
+</div>
+
+  </div>
+  <!-- NO MORE type="module" - regular script -->
+  <script src="login.js"></script>
+</body>
+</html>

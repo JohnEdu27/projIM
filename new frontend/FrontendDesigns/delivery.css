@@ -1,0 +1,253 @@
+/* reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* page */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f0f2f5;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+/* center wrapper */
+.delivery-wrapper {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* back button */
+.back-btn {
+  display: inline-block;
+  color: #FF6600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+/* white card */
+.delivery-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  animation: fadeInUp 0.4s ease-out;
+}
+
+/* header */
+.delivery-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* motorcycle icon circle */
+.moto-icon {
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg, #FF6600, #FFB347);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 0 auto 1rem;
+  box-shadow: 0 4px 12px rgba(255,102,0,0.3);
+}
+
+.delivery-header h1 {
+  font-size: 1.5rem;
+  color: #1e2a3a;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.delivery-header p {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* form group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.optional {
+  font-weight: 400;
+  color: #aaa;
+  font-size: 0.8rem;
+}
+
+/* inputs */
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 12px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-family: inherit;
+  background: #fafafa;
+  outline: none;
+  color: #333;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #FF6600;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(255,102,0,0.1);
+}
+
+.form-group input.error-border,
+.form-group textarea.error-border,
+.form-group select.error-border {
+  border-color: #ef4444;
+}
+
+/* error text */
+.error {
+  color: #ef4444;
+  font-size: 0.8rem;
+  font-weight: 500;
+  min-height: 18px;
+  display: block;
+}
+
+/* radio group */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.radio-option:hover {
+  border-color: #FF6600;
+  background: #fff5ee;
+}
+
+.radio-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #FF6600;
+  flex-shrink: 0;
+}
+
+.radio-label {
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* order summary box */
+.order-summary {
+  background: #fff5ee;
+  border: 1px solid #ffcc99;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.88rem;
+  color: #333;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.summary-divider {
+  border-top: 1px solid #ffcc99;
+  margin: 8px 0;
+}
+
+.summary-fee {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #FF6600;
+}
+
+/* place order button */
+#placeOrderBtn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(to right, #FF6600, #FFB347);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 4px 12px rgba(255,102,0,0.3);
+}
+
+#placeOrderBtn:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-2px);
+}
+
+#placeOrderBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* mobile */
+@media (max-width: 480px) {
+  body { padding: 1rem 0.5rem; }
+  .delivery-card { padding: 1.5rem 1rem; }
+}
