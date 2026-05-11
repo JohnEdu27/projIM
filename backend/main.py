@@ -290,31 +290,38 @@ def add_orders(user : addOrders):
 
 
 
-@app.get("/admin/dashboard")
+@app.post("/admin/dashboard")
 def get_allInfo(num : adminDashboard):
-    cursor.execute("SELECT COUNT(*) FROM ccg_db.deliveryinfo WHERE date = %s", (num.date,))
-    OrdersToday = cursor.fetchone()[0]
+    cursor.execute("SELECT COUNT(*) AS total FROM ccg_db.deliveryinfo WHERE date = %s", (num.date,))
+    
+    result1 = cursor.fetchone()
+    
+    OrdersToday = result1["total"]
 
     if OrdersToday is None:
         OrdersToday = 0
 
-    cursor.execute("SELECT COUNT(*) FROM ccg_db.products")
-    totalProducts = cursor.fetchone()[0]
+    cursor.execute("SELECT COUNT(*) AS total FROM ccg_db.products")
+    result2 = cursor.fetchone()
 
+    totalProducts = result2["total"]
     if totalProducts is None:
         totalProducts = 0
 
-    cursor.execute("SELECT COUNT(*) FROM ccg_db.customers")
-    totalCustomers = cursor.fetchone()[0]
+    cursor.execute("SELECT COUNT(*) AS total FROM ccg_db.customers")
+    result3 = cursor.fetchone()
     
+    totalCustomers = result3["total"]
     if totalCustomers is None:
         totalCustomers = 0
     
-    cursor.execute("SELECT SUM(total) FROM ccg_db.deliveryinfo")
-    totalSales = cursor.fetchone()[0]
+    cursor.execute("SELECT SUM(total) AS total FROM ccg_db.deliveryinfo")
+    result4 = cursor.fetchone()
     
+    totalSales = result4["total"]
     if totalSales is None:
         totalSales = 0
+    
     totalSales = float(totalSales)
     return {
         "OrdersToday": OrdersToday,

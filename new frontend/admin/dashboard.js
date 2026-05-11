@@ -65,8 +65,10 @@ async function loadDashboard() {
   const now = new Date();
   const phDate = now.toLocaleDateString('en-CA', {timezone: 'Asia/Manila' });
 
-  const response = await fetch('http://127.0.0.1:8000/admin/dashboard?date=${phDate}', {
-    method: 'GET',
+  const response = await fetch('http://127.0.0.1:8000/admin/dashboard', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ "date": phDate})
   });
 
   const result = await response.json();
@@ -88,12 +90,15 @@ async function loadDashboard() {
   
   tbody.innerHTML = '';
 
-  orders.forEach(function(order) {
+  Object.values(orders).forEach(function(order) {
+
+    const items = order.items;
+    const itemNames = items.map(i => i.name).join(', ');
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>#${order.orderID}</td>
       <td>${order.customerName}</td>
-      <td>${order.items}</td>
+      <td>${itemNames}</td>
       <td>${order.total}</td>
       <td>
         <span class="badge-${order.status}">
@@ -104,7 +109,7 @@ async function loadDashboard() {
     tbody.appendChild(row);
   });
   
-  console.log("✅ Dashboard loaded with 6 recent orders");
+  console.log("✅ Dashboard loaded the recent orders");
 }
 
 // ─────────────────────────────────────────
