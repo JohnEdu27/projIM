@@ -92,11 +92,13 @@ def add_faculty(user : faculty):
     salt = bcrypt.gensalt()
     hashed_pwd = bcrypt.hashpw(bytes_pwd, salt)
 
-    query = "INSERT INTO ccg_db.faculty (facultyID, name, email, password) VALUES (%s,%s,%s,%s)"
+    query = "INSERT INTO ccg_db.faculty (facultyID, name, email, password, phone) VALUES (%s,%s,%s,%s,%s)"
 
-    cursor.execute(query, (facultyID, user.name, user.email, hashed_pwd.decode('utf-8')))
+    cursor.execute(query, (facultyID, user.name, user.email, hashed_pwd.decode('utf-8'), user.phone))
     db.commit()
-    return "faculty added"
+    return {
+        "message": "faculty added"
+    }
 
 
 @app.post("/signup")
@@ -234,7 +236,7 @@ def add_rider(user : riderAccount):
     salt = bcrypt.gensalt()
     hashed_pwd = bcrypt.hashpw(bytes_pwd, salt)
 
-    query = "INSERT INTO ccg_db.riders (rider_id, name, email, password) VALUES (%s,%s,%s,%s)"
+    query = "INSERT INTO ccg_db.riders (rider_id, name, email, phone, password) VALUES (%s,%s,%s,%s,%s)"
 
     cursor.execute(query,(rider_id, user.name, user.email, hashed_pwd.decode('utf-8')))
     db.commit()
@@ -278,10 +280,11 @@ def delete_rider(userA : deleteRider):
 
 @app.post("/orders")
 def add_orders(user : addOrders):
-    query = "INSERT INTO ccg_db.deliveryinfo (orderID, date, time, customerName, address, phone, deliveryOption, deliveryFee, paymentMethod, notes, items, subtotal, total, status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    query = "INSERT INTO ccg_db.deliveryinfo (CustomerID ,orderID, date, time, customerName, address, phone, deliveryOption, deliveryFee, paymentMethod, notes, items, subtotal, total, status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     items_json = json.dumps([item.model_dump() for item in user.items])
-    values = (user.orderId, user.date, user.time, user.customerName, user.address, user.phone, user.deliveryOption, user.deliveryFee, user.paymentMethod, user.notes, items_json, user.subtotal, user.total, user.status)
+    values = (user.userID, user.orderId, user.date, user.time, user.customerName, user.address, user.phone, user.deliveryOption, user.deliveryFee, user.paymentMethod, user.notes, items_json, user.subtotal, user.total, user.status)
 
+    
     cursor.execute(query, values)
     db.commit()
     return {
@@ -332,10 +335,26 @@ def get_allInfo(num : adminDashboard):
 
 @app.get("/orders")
 def get_orders():
-    query = "SELECT orderID, customerName, items, total, status FROM ccg_db.deliveryinfo"
+    query = "SELECT CustomerID, orderID, customerName, items, total, status FROM ccg_db.deliveryinfo"
     cursor.execute(query)
     Information = cursor.fetchall()
 
     return {
         "orders": Information
     }
+
+@app.post("/order")
+def get_ordersVIAiD(user : getByID):
+    cursor.execute("SELECT * FROM ccg_db.deliveryinfo WHERE CustomerID = %s", (user.CustomerID,))
+    user2 = cursor.fetchall()
+
+    return {
+        "orders": user2
+    }
+
+@app.get("/faculty")
+def get_faculty():
+    cursor.execute("SELECT * FROM ccg_db.faculty")
+    return cursor.fetchall()
+
+

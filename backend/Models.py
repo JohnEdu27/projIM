@@ -30,6 +30,7 @@ class adminADD(BaseModel):
 class faculty(BaseModel):
     name : str
     email : str
+    phone : str
     password : str
 
 class deleteCustomer(BaseModel):
@@ -68,6 +69,7 @@ class riderAccount(BaseModel):
     name : str
     email : str
     password : str
+    phone : str
 
 class updateRider(BaseModel):
     rider_id : int
@@ -87,6 +89,7 @@ class OrderItem(BaseModel):
     quantity : int
 
 class addOrders(BaseModel):
+    userID : int
     orderId : int
     date : str
     time : str
@@ -104,3 +107,6 @@ class addOrders(BaseModel):
 
 class adminDashboard(BaseModel):
     date : str
+
+class getByID(BaseModel):
+    CustomerID : int
