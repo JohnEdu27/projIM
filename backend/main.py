@@ -108,11 +108,11 @@ def add_customers(user : customers):
     salt = bcrypt.gensalt()
     hashed_pwd = bcrypt.hashpw(bytes_pwd, salt)
 
-    query = "INSERT INTO ccg_db.customers (CustomerID, name, email, password) VALUES (%s,%s,%s,%s)"
+    query = "INSERT INTO ccg_db.customers (CustomerID, name, email, phone, password) VALUES (%s,%s,%s,%s,%s)"
 
-    cursor.execute(query,(customer_id, user.name, user.email, hashed_pwd.decode('utf-8')))
+    cursor.execute(query,(customer_id, user.name, user.email, user.phone, hashed_pwd.decode('utf-8')))
     db.commit()
-    return "Customer Added"
+    return {"message":"Customer Added"}
 
 @app.post("/login")
 def login(userA : customer):
@@ -169,7 +169,7 @@ def delete_customer(userA : deleteCustomer):
     cursor.execute(query, (userA.customer_id,))
     return {"message":f"User {userA.customer_id} Successfully Deleted."}
 
-@app.delete("/product/{product_id}")
+@app.delete("/product")
 def delete_product(user : deleteProduct):
     query = "DELETE FROM ccg_db.products WHERE productID = %s"
 
@@ -192,11 +192,18 @@ def restock_product(user : restockProduct):
     return {"message":"Product Updated"}
 
 
+@app.post("/product/one")
+def get_product(user : deleteProduct):
+    cursor.execute("SELECT * FROM ccg_db.products WHERE productID = %s", (user.product_id,))
+    return cursor.fetchone()
+
+
+
 @app.post("/product")
 def add_product(user : product):
     product_id = gen_productID()
-    query = "INSERT INTO ccg_db.products (productName, quantity, price, productID) VALUES (%s,%s,%s,%s)"
-    values = (user.ProductName, user.quantity, user.price, product_id)
+    query = "INSERT INTO ccg_db.products (productName, quantity, price, productID, img) VALUES (%s,%s,%s,%s,%s)"
+    values = (user.ProductName, user.quantity, user.price, product_id, user.img)
     cursor.execute(query,values)
     db.commit()
     return {"message":"product added"}
@@ -206,10 +213,10 @@ def get_products():
     cursor.execute("SELECT * FROM products")
     return cursor.fetchall()
 
-@app.put("/product/{product_id}")
+@app.put("/product/update")
 def change_product(user : updateProduct):
-    query = "UPDATE ccg_db.products SET productName = %s, quantity = %s, price = %s WHERE productID = %s"
-    values = (user.ProductName, user.quantity, user.price, user.product_id)
+    query = "UPDATE ccg_db.products SET productName = %s, quantity = %s, price = %s, img = %s WHERE productID = %s"
+    values = (user.productName, user.quantity, user.price, user.img, user.product_id)
     cursor.execute(query, values)
     db.commit()
 
@@ -238,7 +245,7 @@ def add_rider(user : riderAccount):
 
     query = "INSERT INTO ccg_db.riders (rider_id, name, email, phone, password) VALUES (%s,%s,%s,%s,%s)"
 
-    cursor.execute(query,(rider_id, user.name, user.email, hashed_pwd.decode('utf-8')))
+    cursor.execute(query,(rider_id, user.name, user.email, user.phone, hashed_pwd.decode('utf-8')))
     db.commit()
     return {"message":"rider Added"}
 
@@ -318,7 +325,7 @@ def get_allInfo(num : adminDashboard):
     if totalCustomers is None:
         totalCustomers = 0
     
-    cursor.execute("SELECT SUM(total) AS total FROM ccg_db.deliveryinfo")
+    cursor.execute("SELECT SUM(total) AS total FROM ccg_db.deliveryinfo WHERE status = 'delivered'")
     result4 = cursor.fetchone()
     
     totalSales = result4["total"]
@@ -335,7 +342,7 @@ def get_allInfo(num : adminDashboard):
 
 @app.get("/orders")
 def get_orders():
-    query = "SELECT CustomerID, orderID, customerName, items, total, status FROM ccg_db.deliveryinfo"
+    query = "SELECT CustomerID, orderID, customerName, items, total, status FROM ccg_db.deliveryinfo WHERE status = 'preparing' OR status = 'delivering' OR status ='delivered'"
     cursor.execute(query)
     Information = cursor.fetchall()
 
@@ -357,4 +364,74 @@ def get_faculty():
     cursor.execute("SELECT * FROM ccg_db.faculty")
     return cursor.fetchall()
 
+
+@app.post("/order/orderid")
+def get_orderByOrderID(user : getByOrderID):
+    cursor.execute("SELECT * FROM ccg_db.deliveryinfo WHERE orderID = %s", (user.OrderID,))
+    return cursor.fetchone()
+
+@app.put("/order/status")
+def change_orderstatus(user : ChangeStatus):
+    cursor.execute("UPDATE ccg_db.deliveryinfo SET status = %s WHERE orderID = %s", (user.status, user.orderID,))
+    return {
+        "message": "Status updated Succesfully!"
+    }
+
+
+@app.delete("/deleteOrderDetails")
+def deleteOrderDetails():
+    cursor.execute("SELECT COUNT(*) AS total FROM ccg_db.deliveryinfo")
+    totalOrders = cursor.fetchone()
+    cursor.execute("TRUNCATE TABLE ccg_db.deliveryinfo")
+    db.commit()
+    return {
+        "message": "Orders Deleted",
+        "total": totalOrders
+    }
+
+
+@app.post("/VerifyDetails")
+def verifyDetails(userA : verifyDetails):
+
+    cursor.execute("SELECT email, name, role, CustomerID AS user_id FROM ccg_db.customers WHERE email = %s UNION SELECT email, name, role, id AS user_id FROM ccg_db.admin WHERE email = %s UNION SELECT email, name, role, facultyID AS user_id FROM ccg_db.faculty WHERE email = %s UNION SELECT email, name, role, rider_id AS user_id FROM ccg_db.riders WHERE email = %s", (userA.email, userA.email, userA.email, userA.email))
+    user = cursor.fetchone()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return  {
+        "message":f"Email and ID verified Hello {user['name']}!",
+        "email": user['email'],
+        "role": user['role'],
+        "name": user['name'],
+        "user_id" : user['user_id']
+        }
+
+
+@app.put("/resetpass")
+def resetpassword(userA : resetpass):
+    bytes_pwd = userA.newpass.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed_pwd = bcrypt.hashpw(bytes_pwd, salt).decode('utf-8')
+
+    queries = [
+        ("UPDATE ccg_db.customers SET password = %s WHERE CustomerID = %s", (hashed_pwd, userA.user_id)),
+        ("UPDATE ccg_db.faculty SET password = %s WHERE facultyID = %s",(hashed_pwd, userA.user_id)),
+        ("UPDATE ccg.db_riders SET password = %s WHERE rider_id = %s", (hashed_pwd, userA.user_id,))
+    ]
+
+    updated = False
+
+    for query, params in queries:
+        cursor.execute(query, params)
+        if cursor.rowcount > 0:
+            updated = True
+            break
+
+        if not updated:
+            raise HTTPException(status_code=404, detail="User ID not found")
+    db.commit()
+    return {
+        "message": f"User {userA.user_id} Password has been updated."
+    }
 

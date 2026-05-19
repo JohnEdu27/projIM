@@ -18,6 +18,7 @@ class customer(BaseModel):
 class customers(BaseModel):
     name : str
     email : str
+    phone : str
     password : str
 
 class adminADD(BaseModel):
@@ -51,6 +52,7 @@ class product(BaseModel):
     ProductName : str
     quantity : int
     price : float
+    img : str
 
 class restockProduct(BaseModel):
     product_id : int
@@ -62,6 +64,7 @@ class updateProduct(BaseModel):
     productName : str
     quantity : int
     price : float
+    img : str
 class searchProduct(BaseModel):
     ProductName : str
 
@@ -110,3 +113,18 @@ class adminDashboard(BaseModel):
 
 class getByID(BaseModel):
     CustomerID : int
+
+class getByOrderID(BaseModel):
+    OrderID : int
+
+class ChangeStatus(BaseModel):
+    status : str
+    orderID : int
+
+class verifyDetails(BaseModel):
+    email : str
+
+class resetpass(BaseModel):
+    newpass : str
+    user_id : int
+    role : str
