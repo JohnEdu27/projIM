@@ -17,15 +17,13 @@ document.addEventListener("DOMContentLoaded", () => {
 // Creates new faculty account
 // Saves to localStorage
 // ─────────────────────────────────────────
-function handleFacultySignup(e) {
+async function handleFacultySignup(e) {
   e.preventDefault();
 
   // get field values
   const name = document.getElementById("facultyName").value.trim();
   const email = document.getElementById("facultyEmail").value.trim().toLowerCase();
   const phone = document.getElementById("facultyPhone").value.trim();
-  const facultyId = document.getElementById("facultyId").value.trim();
-  const dept = document.getElementById("facultyDept").value;
   const password = document.getElementById("facultyPassword").value.trim();
   const confirm = document.getElementById("facultyConfirm").value.trim();
 
@@ -52,17 +50,6 @@ function handleFacultySignup(e) {
     hasError = true;
   }
 
-  // validate faculty ID
-  if (facultyId.length < 3) {
-    showErr("idErr", "Faculty ID is required.");
-    hasError = true;
-  }
-
-  // validate department
-  if (!dept) {
-    showErr("deptErr", "Please select your department.");
-    hasError = true;
-  }
 
   // validate password
   if (password.length < 6) {
@@ -75,12 +62,11 @@ function handleFacultySignup(e) {
     showErr("confirmErr", "Passwords do not match.");
     hasError = true;
   }
-
+  const getuser = await fetch('http://127.0.0.1:8000/faculty')
   if (hasError) return;
-
   // check if email or phone already exists
-  const users = getUsers();
-  const exists = users.find(u => u.email === email || u.phone === phone);
+  const users = getuser;
+  const exists = users.email === email || users.phone === phone;
   if (exists) {
     showErr("emailErr", "Email or phone already registered.");
     return;
@@ -93,22 +79,23 @@ function handleFacultySignup(e) {
 
   // create new faculty object
   const newFaculty = {
-    uid: "fac_" + Date.now(),
     name: name,
-    fullname: name,
     email: email,
     phone: phone,
     password: password,
-    role: "faculty",
-    facultyId: facultyId,
-    department: dept,
-    profileComplete: true,
-    createdAt: new Date().toLocaleDateString("en-PH")
   };
 
   // add to users list
-  users.push(newFaculty);
-  saveUsers(users);
+  const response = await fetch('http://127.0.0.1:8000/signup/faculty', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(newFaculty)
+  });
+
+  
+
+
+
 
   console.log("✅ Faculty account created:", newFaculty);
 
@@ -125,16 +112,6 @@ function handleFacultySignup(e) {
 // ─────────────────────────────────────────
 // GET USERS FROM LOCALSTORAGE
 // ─────────────────────────────────────────
-function getUsers() {
-  return JSON.parse(localStorage.getItem("allUsers") || "[]");
-}
-
-// ─────────────────────────────────────────
-// SAVE USERS TO LOCALSTORAGE
-// ─────────────────────────────────────────
-function saveUsers(users) {
-  localStorage.setItem("allUsers", JSON.stringify(users));
-}
 
 // ─────────────────────────────────────────
 // SHOW ERROR

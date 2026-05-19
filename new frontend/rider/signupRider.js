@@ -7,17 +7,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("🏍️ Rider signup page loaded!");
 
-  // show/hide plate field based on vehicle
-  document.getElementById("riderVehicle").addEventListener("change", function() {
-    const plateGroup = document.getElementById("plateGroup");
-    // only show plate for motorcycle
-    if (this.value === "motorcycle") {
-      plateGroup.style.display = "block";
-    } else {
-      plateGroup.style.display = "none";
-      document.getElementById("riderPlate").value = "";
-    }
-  });
+
 
   // handle form submission
   document.getElementById("riderForm").addEventListener("submit", handleRiderSignup);
@@ -27,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // HANDLE RIDER SIGNUP
 // Validates all fields
 // Creates new rider account
-// Saves to localStorage
 // ─────────────────────────────────────────
 function handleRiderSignup(e) {
   e.preventDefault();
@@ -36,8 +25,6 @@ function handleRiderSignup(e) {
   const name = document.getElementById("riderName").value.trim();
   const email = document.getElementById("riderEmail").value.trim().toLowerCase();
   const phone = document.getElementById("riderPhone").value.trim();
-  const vehicle = document.getElementById("riderVehicle").value;
-  const plate = document.getElementById("riderPlate").value.trim();
   const password = document.getElementById("riderPassword").value.trim();
   const confirm = document.getElementById("riderConfirm").value.trim();
 
@@ -64,18 +51,6 @@ function handleRiderSignup(e) {
     hasError = true;
   }
 
-  // validate vehicle
-  if (!vehicle) {
-    showErr("vehicleErr", "Please select a vehicle type.");
-    hasError = true;
-  }
-
-  // validate plate for motorcycle only
-  if (vehicle === "motorcycle" && plate.length < 3) {
-    showErr("plateErr", "License plate is required for motorcycle.");
-    hasError = true;
-  }
-
   // validate password
   if (password.length < 6) {
     showErr("passwordErr", "Password must be at least 6 characters.");
@@ -89,10 +64,11 @@ function handleRiderSignup(e) {
   }
 
   if (hasError) return;
+  const getuser = await fetch('http://127.0.0.1:8000/riders')
 
   // check if email or phone already exists
-  const users = getUsers();
-  const exists = users.find(u => u.email === email || u.phone === phone);
+  const users = getuser;
+  const exists = users.email === email || user.phone === phone;
   if (exists) {
     showErr("emailErr", "Email or phone already registered.");
     return;
@@ -105,26 +81,22 @@ function handleRiderSignup(e) {
 
   // create new rider object
   const newRider = {
-    uid: "rider_" + Date.now(),
     name: name,
-    fullname: name,
     email: email,
     phone: phone,
-    password: password,
-    role: "rider",
-    vehicle: vehicle,
-    plate: plate || "N/A",
-    status: "active",
-    profileComplete: true,
-    createdAt: new Date().toLocaleDateString("en-PH")
+    password: password
   };
 
-  // add to users list
-  users.push(newRider);
-  saveUsers(users);
+  const response = await fetch('http://127.0.0.1:8000/signup/rider', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(newRider)
+  });
 
+
+  if(response.ok) {
   console.log("✅ Rider account created:", newRider);
-
+  };
   // hide form and show success
   document.getElementById("riderForm").style.display = "none";
   document.getElementById("successBox").style.display = "block";
@@ -136,18 +108,10 @@ function handleRiderSignup(e) {
 }
 
 // ─────────────────────────────────────────
-// GET USERS FROM LOCALSTORAGE
-// ─────────────────────────────────────────
-function getUsers() {
-  return JSON.parse(localStorage.getItem("allUsers") || "[]");
-}
-
-// ─────────────────────────────────────────
 // SAVE USERS TO LOCALSTORAGE
 // ─────────────────────────────────────────
-function saveUsers(users) {
-  localStorage.setItem("allUsers", JSON.stringify(users));
-}
+
+
 
 // ─────────────────────────────────────────
 // SHOW ERROR

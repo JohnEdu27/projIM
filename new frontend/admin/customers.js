@@ -14,13 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
   setupLogout();
 });
 
+let customers = [];
 // ─────────────────────────────────────────
 // CHECK ADMIN SESSION
 // ─────────────────────────────────────────
 function checkAdminSession() {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   
-  if (!currentUser || !currentUser.email.includes("admin")) {
+  if (!currentUser || !currentUser.role === 'admin') {
     console.log("❌ Admin access denied");
     window.location.href = "../Frontend.html";
     return false;
@@ -46,12 +47,13 @@ function showUserInfo(user) {
 // ─────────────────────────────────────────
 // LOAD ALL CUSTOMERS
 // ─────────────────────────────────────────
-function loadCustomers() {
+async function loadCustomers() {
   const customersTable = document.getElementById('customersTable');
   if (!customersTable) return;
   
-  // Get all customer profiles from localStorage
-  const customers = getAllCustomers();
+  // Get all customer profiles from 
+  const currentUser = await fetch('http://127.0.0.1:8000/customers');
+   customers = await currentUser.json();
   
   customersTable.innerHTML = '';
   
@@ -72,42 +74,16 @@ function loadCustomers() {
 // GET ALL CUSTOMERS FROM LOCALSTORAGE
 // Scans all userProfile_* keys
 // ─────────────────────────────────────────
-function getAllCustomers() {
-  const customers = [];
+async function getAllCustomers() {
+  
   
   // Check current user
-  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+  
+  customers = await currentUser.json();
   if (currentUser.email && !currentUser.email.includes("admin")) {
     customers.push(currentUser);
   }
-  
-  // Check all userProfile_* entries
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key && key.startsWith("userProfile_")) {
-      try {
-        const profile = JSON.parse(localStorage.getItem(key));
-        const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
-        
-        // Combine profile + basic user info
-        const customer = {
-          uid: key.replace("userProfile_", ""),
-          fullname: profile.fullname || user.name || "Unknown",
-          email: user.email || "N/A",
-          department: profile.department || "N/A",
-          block: profile.block || "N/A",
-          studentId: profile.studentId || "N/A"
-        };
-        
-        // Only non-admin customers
-        if (!customer.email?.includes("admin")) {
-          customers.push(customer);
-        }
-      } catch (e) {
-        console.warn("Skipping invalid profile:", key);
-      }
-    }
-  }
+
   
   // Remove duplicates and sort by name
   const uniqueCustomers = Array.from(new Map(customers.map(c => [c.uid, c])).values())
@@ -123,12 +99,9 @@ function createCustomerRow(customer) {
   const row = document.createElement('tr');
   
   row.innerHTML = `
-    <td>${customer.uid.slice(-6)}</td>
-    <td>${customer.fullname}</td>
+    <td>${customer.Name}</td>
     <td>${customer.email}</td>
-    <td>${customer.department}</td>
-    <td>${customer.block}</td>
-    <td>${customer.studentId}</td>
+    <td>${customer.CustomerID}</td>
   `;
   
   return row;

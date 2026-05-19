@@ -203,15 +203,20 @@ function attachCartButtons() {
 // Reads order history from localStorage
 // and displays them in the orders section
 // ─────────────────────────────────────────
-function loadOrders() {
+async function loadOrders() {
   const ordersList = document.getElementById('ordersList');
   if (!ordersList) return;
-
+  const customerID = JSON.parse(localStorage.getItem("userID"));
   // get saved orders from localStorage
-  const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+  const result = await fetch(`http://127.0.0.1:8000/order` , {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({CustomerID: customerID})
+});
 
+  const orders = await result.json()
   // if no orders show a message
-  if (orders.length === 0) {
+  if (orders.orders.length === 0) {
     ordersList.innerHTML = `
       <p style="color:#888;font-size:0.9rem;padding:1rem 0;">
         No orders yet. Start ordering from the menu above!
@@ -223,29 +228,27 @@ function loadOrders() {
   ordersList.innerHTML = '';
 
   // show most recent orders first - reverse the array
-  const recentOrders = [...orders].reverse();
+  const recentOrders = [...orders.orders].reverse();
 
   // create a card for each order
-  recentOrders.forEach(order => {
+  orders.orders.forEach(order => {
     const orderCard = document.createElement('div');
     orderCard.classList.add('order-card');
 
     // calculate order total from items
-    const total = order.items
-      ? order.items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-      : 0;
+    const total = order.total
 
     orderCard.innerHTML = `
       <!-- left side - order name and date -->
       <div class="order-info">
-        <span class="order-name">Order #${order.id || ''}</span>
+        <span class="order-name">Order #${order.orderID || ''}</span>
         <span class="order-date">${order.date || ''}</span>
       </div>
       <!-- right side - total and status badge -->
       <div class="order-right">
         <span class="order-price">₱${total}</span>
-        <span class="order-status ${order.status === 'done' ? 'status-done' : 'status-pending'}">
-          ${order.status === 'done' ? 'Done' : 'Pending'}
+        <span class="order-status ${order.status === 'preparing' ? 'status-preparing' : order.status === 'delivery' ? 'status-delivery' : order.status === 'cancelled' ? 'status-cancelled' : 'status-pending'}">
+          ${order.status === 'preparing' ? 'Preparing' : order.status === 'delivery' ? 'Delivery' : order.status === 'cancelled' ? 'Cancelled' : 'Pending'}
         </span>
       </div>
     `;

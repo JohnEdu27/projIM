@@ -93,7 +93,7 @@ function loadOrderSummary() {
 // Saves order to localStorage
 // Redirects to order_details.html
 // ─────────────────────────────────────────
-async function handleDeliverySubmit(e) {
+ function handleDeliverySubmit(e) {
   // stop page from reloading
   e.preventDefault();
 
@@ -163,8 +163,10 @@ async function handleDeliverySubmit(e) {
     const orderId = generateOrderId();
     const phDate = now.toLocaleDateString('en-CA', {timezone: 'Asia/Manila' });
     const phTime = now.toLocaleTimeString('en-GB', {timezone: 'Asia/Manila', hour12: false });
+    const userID = JSON.parse(localStorage.getItem("userID"));
     // build the complete order object
     const newOrder = {
+      userID: userID,
       orderId: orderId,
       // order date and time
       date: phDate,
@@ -209,7 +211,7 @@ async function handleDeliverySubmit(e) {
     console.log("✅ Order saved:", newOrder);
 
     // redirect to order details page with order ID in URL
-    window.location.href = `order_details.html?orderId=${orderId}`;
+    window.location.href = `order.details.html?orderId=${orderId}`;
 
     
   }, 1000);

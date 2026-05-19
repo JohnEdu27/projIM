@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Canteen Grab - Sign Up</title>
+  <style>
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #FF6600 0%, #FFB347 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    /* white card */
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    /* logo circle */
+    .logo-circle {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, #FF6600, #FFB347);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.2rem;
+      box-shadow: 0 4px 12px rgba(255,102,0,0.3);
+    }
+
+    .logo-circle img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+
+    /* heading */
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1e2a3a;
+      text-align: center;
+      margin-bottom: 0.4rem;
+    }
+
+    /* subtitle */
+    .subtitle {
+      font-size: 0.88rem;
+      color: #888;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    /* form group */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 1.1rem;
+    }
+
+    /* label */
+    .form-group label {
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    /* input wrapper for password eye toggle */
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    /* input */
+    .form-group input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-family: inherit;
+      outline: none;
+      background: #fafafa;
+      color: #333;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    /* password input has padding for eye icon */
+    .input-wrapper input {
+      padding-right: 46px;
+    }
+
+    .form-group input:focus {
+      border-color: #FF6600;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(255,102,0,0.1);
+    }
+
+    /* red border on error */
+    .form-group input.err { border-color: #ef4444; }
+
+    /* eye toggle button */
+    .eye-btn {
+      position: absolute;
+      right: 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #aaa;
+      padding: 0;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .eye-btn:hover { color: #FF6600; }
+
+    /* error text */
+    .err-text {
+      color: #ef4444;
+      font-size: 0.78rem;
+      font-weight: 500;
+      min-height: 16px;
+      display: block;
+    }
+
+    /* password strength bar */
+    .strength-bar {
+      height: 4px;
+      border-radius: 4px;
+      background: #e0e0e0;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .strength-fill {
+      height: 100%;
+      border-radius: 4px;
+      width: 0%;
+      transition: width 0.3s, background 0.3s;
+    }
+
+    .strength-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-top: 3px;
+    }
+
+    /* divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 1.2rem 0;
+      color: #aaa;
+      font-size: 0.82rem;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    /* signup button */
+    .signup-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(to right, #FF6600, #FFB347);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 4px 12px rgba(255,102,0,0.3);
+      margin-top: 0.5rem;
+    }
+
+    .signup-btn:hover:not(:disabled) {
+      opacity: 0.92;
+      transform: translateY(-2px);
+    }
+
+    .signup-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* login link */
+    .login-link {
+      text-align: center;
+      margin-top: 1.2rem;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .login-link a {
+      color: #FF6600;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .login-link a:hover { text-decoration: underline; }
+
+    /* success screen */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 1rem 0;
+      animation: fadeInUp 0.4s ease;
+    }
+
+    .success-icon {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .success-screen h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1e2a3a;
+      margin-bottom: 0.6rem;
+    }
+
+    .success-screen p {
+      color: #888;
+      font-size: 0.88rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    /* terms text */
+    .terms-text {
+      font-size: 0.75rem;
+      color: #aaa;
+      text-align: center;
+      margin-top: 1rem;
+      line-height: 1.5;
+    }
+
+    .terms-text a {
+      color: #FF6600;
+      text-decoration: none;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 2rem 1.2rem; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- logo -->
+    <div class="logo-circle">
+      <img src="../images/mascot.png" alt="CCG"
+        onerror="this.parentElement.innerHTML='🍽️';this.parentElement.style.fontSize='2rem'">
+    </div>
+
+    <!-- signup form -->
+    <div id="signupSection">
+
+      <h1>Create Account</h1>
+      <p class="subtitle">Join Campus Canteen Grab today!</p>
+
+      <form id="signupForm">
+
+        <!-- full name -->
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input
+            type="text"
+            id="fullName"
+            placeholder="Enter your full name"
+            autocomplete="name">
+          <span class="err-text" id="nameErr"></span>
+        </div>
+
+        <!-- email -->
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            autocomplete="email">
+          <span class="err-text" id="emailErr"></span>
+        </div>
+
+        <!-- phone -->
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            placeholder="e.g. 09123456789"
+            maxlength="11"
+            autocomplete="tel">
+          <span class="err-text" id="phoneErr"></span>
+        </div>
+
+        <!-- password -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="password"
+              placeholder="At least 6 characters"
+              oninput="checkStrength()"
+              autocomplete="new-password">
+            <button type="button" class="eye-btn"
+              onclick="toggleEye('password', this)">👁️</button>
+          </div>
+          <!-- strength bar -->
+          <div class="strength-bar">
+            <div class="strength-fill" id="strengthFill"></div>
+          </div>
+          <span class="strength-label" id="strengthLabel"></span>
+          <span class="err-text" id="passwordErr"></span>
+        </div>
+
+        <!-- confirm password -->
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Repeat your password"
+              autocomplete="new-password">
+            <button type="button" class="eye-btn"
+              onclick="toggleEye('confirmPassword', this)">👁️</button>
+          </div>
+          <span class="err-text" id="confirmErr"></span>
+        </div>
+
+        <!-- submit button -->
+        <button type="submit" class="signup-btn" id="signupBtn">
+          🎉 Create Account
+        </button>
+
+        <!-- terms -->
+        <p class="terms-text">
+          By signing up you agree to our
+          <a href="#">Terms of Service</a> and
+          <a href="#">Privacy Policy</a>.
+        </p>
+
+      </form>
+
+      <!-- divider -->
+      <div class="divider">already have an account?</div>
+
+      <!-- login link -->
+      <div class="login-link">
+        <a href="../Frontend.html">← Back to Login</a>
+      </div>
+
+    </div>
+
+    <!-- success screen shown after signup -->
+    <div class="success-screen" id="successScreen">
+      <span class="success-icon">🎉</span>
+      <h2>Account Created!</h2>
+      <p>
+        Welcome to Campus Canteen Grab!<br>
+        You can now login with your email and password.
+      </p>
+      <button class="signup-btn"
+        onclick="window.location.href='../Frontend.html'">
+        ← Go to Login
+      </button>
+    </div>
+
+  </div>
+
+  <script src="signup.js"></script>
+
+</body>
+</html>

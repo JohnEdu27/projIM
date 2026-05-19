@@ -4,60 +4,58 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - Customers</title>
-  <link rel="stylesheet" href="../FrontendDesigns/admin.css">
 </head>
-<body>
+<body style="margin:0;padding:0;font-family:'Segoe UI',sans-serif;background:#f0f2f5;display:flex;min-height:100vh;">
 
   <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="sidebar-logo">
-      <img src="../images/mascot.png" alt="logo">
-      <span>CCG Admin</span>
+  <div style="width:240px;background:linear-gradient(180deg,#1a1f2e,#252d3d);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;box-shadow:4px 0 15px rgba(0,0,0,0.2);z-index:100;">
+    
+    <div style="display:flex;align-items:center;gap:12px;padding:24px 20px;border-bottom:1px solid rgba(255,255,255,0.08);">
+      <img src="../images/mascot.png" alt="logo" style="width:40px;height:40px;border-radius:10px;object-fit:cover;">
+      <span style="font-size:17px;font-weight:700;color:#e8ecf4;">CCG Admin</span>
     </div>
-    <nav class="sidebar-nav">
-      <a href="dashboard.html" class="nav-item">📊 Dashboard</a>
-      <a href="menu.html" class="nav-item">🍽️ Menu</a>
-      <a href="customers.html" class="nav-item active">👥 Customers</a>
+
+    <nav style="flex:1;padding:20px 12px;display:flex;flex-direction:column;gap:6px;">
+      <a href="dashboard.html" style="padding:11px 14px;border-radius:8px;color:#9aa3b8;text-decoration:none;font-size:14px;font-weight:500;">&#9783; Dashboard</a>
+      <a href="customers.html" style="padding:11px 14px;border-radius:8px;color:#fff;text-decoration:none;font-size:14px;font-weight:600;background:linear-gradient(135deg,#4f6ef7,#3b5bdb);box-shadow:0 4px 12px rgba(79,110,247,0.35);">&#128101; Customers</a>
     </nav>
-    <button class="sidebar-logout" id="logoutBtn">🚪 Logout</button>
+
+    <button id="logoutBtn" style="margin:16px 12px 24px;padding:11px 14px;background:rgba(255,90,90,0.12);border:1px solid rgba(255,90,90,0.25);color:#ff7b7b;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">&#x2192; Logout</button>
   </div>
 
-  <!-- Main content -->
-  <div class="admin-main">
+  <!-- Main -->
+  <div style="margin-left:240px;flex:1;display:flex;flex-direction:column;">
 
-    <!-- Top bar -->
-    <div class="topbar">
-      <h1>Customers</h1>
-      <div class="topbar-user">
-        <img id="userPhoto" src="" alt="profile">
-        <span id="userName">Loading...</span>
+    <!-- Topbar -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 32px;background:#fff;border-bottom:1px solid #e4e8f0;box-shadow:0 2px 8px rgba(0,0,0,0.04);position:sticky;top:0;z-index:50;">
+      <h1 style="margin:0;font-size:22px;font-weight:700;color:#1a1f2e;">Customers</h1>
+      <div style="display:flex;align-items:center;gap:12px;background:#f5f7fb;padding:8px 16px 8px 8px;border-radius:50px;border:1px solid #e4e8f0;">
+        <img id="userPhoto" src="" alt="profile" style="width:34px;height:34px;border-radius:50%;background:#dde2ee;border:2px solid #fff;">
+        <span id="userName" style="font-size:14px;font-weight:600;color:#3a4460;">Loading...</span>
       </div>
     </div>
 
-    <!-- Customers table -->
-    <div class="admin-card">
-      <h2>All Customers</h2>
-      <table class="admin-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Department</th>
-            <th>Block</th>
-            <th>Student ID</th>
-          </tr>
-        </thead>
-        <tbody id="customersTable">
-          <!-- filled by customers.js -->
-        </tbody>
-      </table>
+    <!-- Content -->
+    <div style="padding:32px;">
+      <div style="background:#fff;border-radius:14px;box-shadow:0 2px 16px rgba(0,0,0,0.06);border:1px solid #e8ecf5;overflow:hidden;">
+        <h2 style="margin:0;padding:22px 28px;font-size:16px;font-weight:700;color:#1a1f2e;border-bottom:1px solid #f0f2f8;background:#fafbff;">All Customers</h2>
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr style="background:#f5f7fb;">
+              <th style="padding:13px 28px;text-align:left;font-size:12px;font-weight:700;color:#7a85a0;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid #edf0f7;">Name</th>
+              <th style="padding:13px 20px;text-align:left;font-size:12px;font-weight:700;color:#7a85a0;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid #edf0f7;">Email</th>
+              <th style="padding:13px 28px;text-align:left;font-size:12px;font-weight:700;color:#7a85a0;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid #edf0f7;">Customer ID</th>
+            </tr>
+          </thead>
+          <tbody id="customersTable">
+            <!-- filled by customers.js -->
+          </tbody>
+        </table>
+      </div>
     </div>
 
   </div>
-<!-- Your HTML exactly the same -->
 
-<!-- ✅ ONLY CHANGE THIS -->
-<script src="customers.js"></script>
+  <script src="customers.js"></script>
 </body>
 </html>

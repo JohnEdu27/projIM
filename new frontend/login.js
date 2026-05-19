@@ -102,9 +102,10 @@ async function handleLogin(loginInput, passwordInput, rememberInput, submitBtn, 
 
     if(response.ok) {
       const role = result.role;
+      const email = result.email;
       saveUserSession(result);
       if (role === 'customer') window.location.href = "customer/home.html";
-      else if (role === 'faculty') window.location.href = "faculty.html";
+      else if (role === 'faculty') window.location.href = "faculty/facultypage.html";
       else if (role === 'admin') window.location.href = "admin/dashboard.html";
       else if (role === 'rider') window.location.href = "rider.html";
   }else {
@@ -129,6 +130,7 @@ async function handleLogin(loginInput, passwordInput, rememberInput, submitBtn, 
 // ─────────────────────────────────────────
 function saveUserSession(user) {
   localStorage.setItem("currentUser", JSON.stringify(user));
+  localStorage.setItem("userEmail", email.value);
   localStorage.setItem("isLoggedIn", "true");
   localStorage.setItem("userID", user.id);
   localStorage.setItem("userRole", user.role); // NEW: Save role

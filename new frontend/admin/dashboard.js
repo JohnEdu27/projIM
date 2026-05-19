@@ -84,16 +84,14 @@ async function loadDashboard() {
   const info = await fetch('http://127.0.0.1:8000/orders');
 
   const orders = await info.json();
-
+  
   const tbody = document.getElementById('ordersTable');
   if (!tbody) return;
   
   tbody.innerHTML = '';
-
-  Object.values(orders).forEach(function(order) {
-
-    const items = order.items;
-    const itemNames = items.map(i => i.name).join(', ');
+  orders.orders.forEach(function(order) {
+    const itemDetails = JSON.parse(order.items);
+    const itemNames = itemDetails.map(item => `${item.name} (x${item.quantity})`).join('<br> ');
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>#${order.orderID}</td>
@@ -112,14 +110,23 @@ async function loadDashboard() {
   console.log("✅ Dashboard loaded the recent orders");
 }
 
+const search = getElementById(search);
+
+if(search == orders.orders.orderID || search == orders.orders.customerName) {
+  console.log("Found!");
+
+};
+
+
 // ─────────────────────────────────────────
 // STATUS TEXT
 // ─────────────────────────────────────────
 function getStatusText(status) {
   const statusMap = {
-    'done': '✅ Done',
-    'pending': '⏳ Pending', 
-    'delivery': '🚚 Delivery'
+    'delivered': '✅ Delivered',
+    'preparing': '⏳ Preparing', 
+    'delivery': '🚚 Delivery',
+    'cancelled': '❌ Cancelled'
   };
   return statusMap[status] || '⏳ Pending';
 }

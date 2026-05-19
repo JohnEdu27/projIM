@@ -63,7 +63,16 @@
 
     <!-- order history section -->
     <section class="orders-section">
-      <h2>Your Recent Orders</h2>
+      <!-- orders section heading with view all link -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+    <h2 style="border-bottom:2px solid #FF6600;padding-bottom:0.5rem;display:inline-block;font-size:1.2rem;color:#333;">
+      Your Recent Orders
+    </h2>
+    <a href="recent.orders.html"
+      style="color:#FF6600;font-size:0.85rem;font-weight:600;text-decoration:none;">
+      View All →
+    </a>
+  </div>
 
       <!-- order history list - filled by home.js -->
       <div class="orders-list" id="ordersList">

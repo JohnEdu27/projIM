@@ -1,2 +1,2 @@
-# projIM
-ccg_project heh
+# Project Name : Campus Canteen Grab (CCG) 
+

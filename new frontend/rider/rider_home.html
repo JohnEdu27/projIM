@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Canteen Grab - Rider Dashboard</title>
+  <style>
+
+    /* reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* page */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+    }
+
+    /* navbar */
+    .navbar {
+      background: linear-gradient(to right, #FF6600, #FFB347);
+      padding: 0.8rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-logo { width: 40px; }
+
+    .nav-title {
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .nav-role {
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-photo {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      object-fit: cover;
+    }
+
+    .user-name {
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .logout-btn {
+      padding: 6px 16px;
+      background: #fff;
+      color: #FF6600;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .logout-btn:hover { background: #ffe0cc; }
+
+    /* main content */
+    .main {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* welcome banner */
+    .welcome-banner {
+      background: linear-gradient(135deg, #1e2a3a, #334155);
+      border-radius: 16px;
+      padding: 1.5rem 1.8rem;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .welcome-icon { font-size: 2.2rem; }
+
+    .welcome-text h1 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .welcome-text p {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+
+    /* stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      border-top: 3px solid #FF6600;
+    }
+
+    .stat-num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #FF6600;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    /* receive orders button - BIG BLUE */
+    .receive-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 6px 20px rgba(59,130,246,0.4);
+      transition: all 0.2s;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .receive-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(59,130,246,0.5);
+    }
+
+    .receive-btn:active { transform: translateY(0); }
+
+    /* pulse animation for the button */
+    .receive-btn .btn-icon {
+      font-size: 1.4rem;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    /* orders section */
+    .section-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e2a3a;
+    }
+
+    /* orders list */
+    .orders-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* single order card */
+    .order-card {
+      background: #f8f8f8;
+      border-radius: 12px;
+      padding: 1.2rem;
+      border: 1.5px solid #f0f0f0;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      animation: slideIn 0.3s ease;
+    }
+
+    .order-card:hover {
+      border-color: #FFB347;
+      box-shadow: 0 2px 10px rgba(255,102,0,0.1);
+    }
+
+    /* order top row - ID and status */
+    .order-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .order-id {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1e2a3a;
+    }
+
+    /* status badges */
+    .badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .badge-new {
+      background: #eff6ff;
+      color: #3b82f6;
+      border: 1px solid #93c5fd;
+    }
+
+    .badge-delivering {
+      background: #fff9f0;
+      color: #FF6600;
+      border: 1px solid #FFB347;
+    }
+
+    .badge-delivered {
+      background: #f0fdf4;
+      color: #22c55e;
+      border: 1px solid #86efac;
+    }
+
+    .badge-cancelled {
+      background: #fef2f2;
+      color: #ef4444;
+      border: 1px solid #fca5a5;
+    }
+
+    /* order items list */
+    .order-items {
+      font-size: 0.88rem;
+      color: #555;
+      margin-bottom: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .order-items strong {
+      color: #1e2a3a;
+      font-weight: 600;
+    }
+
+    /* item tag */
+    .item-tag {
+      display: inline-block;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      margin: 2px;
+      color: #444;
+    }
+
+    /* order address */
+    .order-address {
+      font-size: 0.8rem;
+      color: #888;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+    /* order bottom - total and action buttons */
+    .order-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.8rem;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .order-total {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #FF6600;
+    }
+
+    /* action buttons */
+    .order-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* DELIVERED button - blue */
+    .btn-delivered {
+      padding: 8px 18px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 3px 8px rgba(59,130,246,0.3);
+    }
+
+    .btn-delivered:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* CANCEL button - also blue outline */
+    .btn-cancel-order {
+      padding: 8px 18px;
+      background: none;
+      color: #3b82f6;
+      border: 2px solid #3b82f6;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+    }
+
+    .btn-cancel-order:hover {
+      background: #eff6ff;
+    }
+
+    /* empty state */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: #888;
+    }
+
+    .empty-icon { font-size: 3rem; margin-bottom: 0.8rem; }
+    .empty-state h3 { font-size: 1rem; color: #555; margin-bottom: 0.4rem; }
+    .empty-state p { font-size: 0.85rem; }
+
+    /* confirm modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal-box {
+      background: #1e2a3a;
+      border-radius: 20px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      animation: popIn 0.3s ease;
+      border: 1.5px solid #334155;
+    }
+
+    .modal-order-id {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .modal-id-value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 1.2rem;
+    }
+
+    .modal-items-label {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .modal-items-list {
+      font-size: 1rem;
+      color: #fff;
+      font-weight: 600;
+      margin-bottom: 1.8rem;
+      line-height: 1.8;
+    }
+
+    .modal-divider {
+      border: none;
+      border-top: 1px solid #334155;
+      margin: 1.2rem 0;
+    }
+
+    /* modal action buttons */
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .modal-delivered-btn {
+      flex: 1;
+      padding: 14px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+      transition: opacity 0.2s;
+    }
+
+    .modal-delivered-btn:hover { opacity: 0.9; }
+
+    .modal-cancel-btn {
+      flex: 1;
+      padding: 14px;
+      background: none;
+      color: #3b82f6;
+      border: 2px solid #3b82f6;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: background 0.2s;
+    }
+
+    .modal-cancel-btn:hover { background: rgba(59,130,246,0.1); }
+
+    /* notification */
+    .notif {
+      position: fixed;
+      top: 20px; right: 20px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #fff;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      animation: slideIn 0.3s ease;
+    }
+
+    .notif-success { background: #22c55e; }
+    .notif-info { background: #3b82f6; }
+    .notif-error { background: #ef4444; }
+
+    /* status toggle */
+    .status-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toggle-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #666;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 48px;
+      height: 26px;
+    }
+
+    .toggle-switch input { display: none; }
+
+    .toggle-slider {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #ccc;
+      border-radius: 26px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .toggle-slider:before {
+      content: '';
+      position: absolute;
+      width: 20px; height: 20px;
+      left: 3px; bottom: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    input:checked + .toggle-slider { background: #22c55e; }
+    input:checked + .toggle-slider:before { transform: translateX(22px); }
+
+    .online-status {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #22c55e;
+    }
+
+    .offline-status {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #888;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    /* mobile */
+    @media (max-width: 480px) {
+      .navbar { padding: 0.8rem 1rem; }
+      .main { padding: 1.2rem 1rem; }
+      .stats-row { grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+      .stat-box { padding: 0.8rem 0.5rem; }
+      .stat-num { font-size: 1.4rem; }
+      .order-actions { flex-direction: column; gap: 6px; }
+      .modal-actions { flex-direction: column; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- navbar -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="../images/mascot.png" alt="logo" class="nav-logo">
+      <span class="nav-title">Campus Canteen Grab</span>
+      <span class="nav-role">🏍️ Rider</span>
+    </div>
+    <div class="nav-right">
+      <img id="userPhoto" src="" alt="profile" class="user-photo">
+      <span class="user-name" id="userName">Loading...</span>
+      <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+  </nav>
+
+  <!-- main content -->
+  <main class="main">
+
+    <!-- welcome banner -->
+    <div class="welcome-banner">
+      <div class="welcome-icon">🏍️</div>
+      <div class="welcome-text">
+        <h1>Welcome, <span id="welcomeName">Rider</span>!</h1>
+        <p>Ready to deliver? Click Receive Orders to get started.</p>
+      </div>
+    </div>
+
+    <!-- stats row -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num" id="totalDelivered">0</div>
+        <div class="stat-label">Delivered</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="totalActive">0</div>
+        <div class="stat-label">Active</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="totalCancelled">0</div>
+        <div class="stat-label">Cancelled</div>
+      </div>
+    </div>
+
+    <!-- online/offline toggle and receive button -->
+    <div class="section-card">
+
+      <!-- online toggle -->
+      <div class="section-header">
+        <span class="section-title">📡 Availability</span>
+        <div class="status-toggle">
+          <span class="toggle-label" id="statusLabel">Offline</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="onlineToggle" onchange="toggleOnline()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- big receive orders button -->
+      <button class="receive-btn" id="receiveBtn" onclick="receiveOrders()">
+        <span class="btn-icon">📦</span>
+        RECEIVE ORDERS
+      </button>
+
+    </div>
+
+    <!-- active orders section -->
+    <div class="section-card">
+
+      <div class="section-header">
+        <span class="section-title">🚚 My Orders</span>
+        <button style="
+          padding:6px 14px;
+          background:#f0f2f5;
+          border:none;
+          border-radius:8px;
+          font-size:0.82rem;
+          font-weight:600;
+          color:#555;
+          cursor:pointer;"
+          onclick="loadOrders()">
+          🔄 Refresh
+        </button>
+      </div>
+
+      <!-- orders list filled by dashboard.js -->
+      <div class="orders-list" id="ordersList">
+
+        <!-- empty state shown when no orders -->
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon">📭</div>
+          <h3>No orders yet</h3>
+          <p>Click "Receive Orders" to get delivery requests.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- order detail modal - shown when receive orders clicked -->
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal-box">
+
+      <!-- order ID -->
+      <div class="modal-order-id">ORDER ID</div>
+      <div class="modal-id-value" id="modalOrderId">—</div>
+
+      <hr class="modal-divider">
+
+      <!-- items list -->
+      <div class="modal-items-label">ITEMS</div>
+      <div class="modal-items-list" id="modalItems">—</div>
+
+      <!-- address -->
+      <div class="modal-items-label">📍 DELIVER TO</div>
+      <div class="modal-items-list" id="modalAddress" style="font-size:0.9rem;">—</div>
+
+      <hr class="modal-divider">
+
+      <!-- action buttons -->
+      <div class="modal-actions">
+        <button class="modal-delivered-btn" onclick="markDelivered()">
+          ✅ DELIVERED
+        </button>
+        <button class="modal-cancel-btn" onclick="cancelOrder()">
+          ❌ CANCEL
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="rider_home.js"></script>
+
+</body>
+</html>
